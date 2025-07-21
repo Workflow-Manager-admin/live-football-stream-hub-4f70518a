@@ -60,20 +60,28 @@ class MatchInfo(MethodView):
 @blp.route("/teams")
 class TeamList(MethodView):
     """List all teams."""
-    @blp.response(200, fields.List(fields.Nested(TeamSchema)))
+
+    class TeamsListSchema(Schema):
+        teams = fields.List(fields.Nested(TeamSchema))
+
+    @blp.response(200, TeamsListSchema)
     def get(self):
         """
         List all teams and their IDs.
         """
-        return list(TEAMS.values())
+        return {"teams": list(TEAMS.values())}
 
 # PUBLIC_INTERFACE
 @blp.route("/players")
 class PlayerList(MethodView):
     """List all players."""
-    @blp.response(200, fields.List(fields.Nested(PlayerSchema)))
+
+    class PlayersListSchema(Schema):
+        players = fields.List(fields.Nested(PlayerSchema))
+
+    @blp.response(200, PlayersListSchema)
     def get(self):
         """
         List all players and their stats.
         """
-        return list(PLAYERS.values())
+        return {"players": list(PLAYERS.values())}
